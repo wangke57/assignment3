@@ -1,0 +1,30 @@
+symbol_to_number <- function(symbol) { # create a new function "symbol_to_number" (credit:https://github.com/dennis95stumm/bioinformatics_algorithms/blob/master/pattern_to_number.r)
+  switch( # switch:change an expression to a number or a character string (ref.https://www.rdocumentation.org/packages/base/versions/3.6.0/topics/switch)
+    symbol, # symbol as expression
+    A = 0, # switch a to 0
+    C = 1, # switch c to 1
+    G = 2, # switch g to 2
+    T = 3 # switch t to 3
+  ) # end of switch function
+} # end of function statement
+
+pattern_to_number <- function(pattern) { # create a new function "pattern_to_number" (credit:https://github.com/dennis95stumm/bioinformatics_algorithms/blob/master/pattern_to_number.r)
+  pattern_length <- nchar(pattern) # define pattern_lenght as the character length of pattern
+  if (pattern_length == 0) # if pattern_lenght is 0
+    return(0) # return to 0
+  
+  symbol <- substr(pattern, pattern_length, pattern_length + 1) # define "symbol" as a substring(vector,start,stop) (ref.https://www.rdocumentation.org/packages/base/versions/3.6.0/topics/substr)
+  prefix <- substr(pattern, 0, pattern_length - 1) # define "prefix" as a substring(vector,star,stop)
+  return(4 * pattern_to_number(prefix) + symbol_to_number(symbol)) # result as 4 * numbers of pattern without the last one + the last symbol swithed to number
+} # end of function statement
+
+computing_frequencies <- function(text, k) { # create a new function "computing_frequencies" (credit:https://github.com/dennis95stumm/bioinformatics_algorithms/blob/master/computing_frequencies.r)
+  frequency_array <- array(0, 4^k) # define "frequency_array" as an array of 0 when the length is 4^k (ref.https://www.rdocumentation.org/packages/base/versions/3.6.0/topics/array)
+  for(i in 0:(nchar(text) - k)) { # for i inbetween of 0 and the character length of text minus k
+    pattern <- substr(text, i + 1, i + k) # define pattern as a substring(vector,start,stop)
+    j <- pattern_to_number(pattern) # define j as the number of "pattern"
+    frequency_array[j + 1] <- frequency_array[j + 1] + 1 # then the "frequency_array" of j should be j+1
+  } # end of statement
+  return(frequency_array) # return to frequency_array
+} # end of function 
+
